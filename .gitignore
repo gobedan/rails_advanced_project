@@ -35,3 +35,4 @@ yarn-debug.log*
 
 .rubocop_sublime.yml
 .rubocop.yml
+rubocop_pre_commit_hook.rb
