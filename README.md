@@ -2,5 +2,5 @@
 
 Ruby 2.7.0
 Postgresql
-Rspec 3.9 + Factory_bot 
+Rspec 4.0.0 rc-1 + Factory_bot 
 
