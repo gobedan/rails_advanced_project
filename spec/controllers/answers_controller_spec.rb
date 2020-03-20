@@ -29,45 +29,4 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
-
-  describe 'PATCH #update' do
-    context 'with valid attribures' do
-      it 'changes answer attributes' do
-        patch :update, params: { question_id: question, id: answer, answer: { body: 'new body' } }
-        answer.reload
-        expect(answer.body).to eq 'new body'
-      end
-
-      it 'redirects to #show view' do
-        patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer) }
-        expect(response).to redirect_to question_answer_path(question, answer)
-      end
-    end
-
-    context 'with invalid attributes' do
-      before { patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer, :invalid) } }
-
-      it 'does not changes answer attributes' do
-        answer.reload 
-        expect(answer.body).to eq 'MyText'
-      end
-
-      it 'renders #edit view' do 
-        expect(response).to render_template :edit
-      end
-    end 
-  end
-
-  describe 'DELETE #destroy' do 
-    let!(:answer) { create(:answer) }
-
-    it 'deletes answer' do
-      expect { delete :destroy, params: { question_id: question, id: answer } }.to change(Answer, :count).by(-1)
-    end
-
-    it 'redirects to question answers' do 
-      delete :destroy, params: { question_id: question, id: answer }
-      expect(response).to redirect_to question_answers_path()
-    end
-  end
 end

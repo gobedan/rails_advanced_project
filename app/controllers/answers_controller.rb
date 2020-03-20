@@ -12,19 +12,6 @@ class AnswersController < ApplicationController
       render :new
     end
   end
-
-  def update
-    if answer.update(answer_params)
-      redirect_to question_answer_path(params[:question_id], answer)
-    else
-      render :edit
-    end
-  end
-
-  def destroy
-    answer.destroy
-    redirect_to question_answers_path(params[:question_id])
-  end
   
   private
 
