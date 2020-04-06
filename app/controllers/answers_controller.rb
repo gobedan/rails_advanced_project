@@ -3,7 +3,7 @@
 class AnswersController < ApplicationController
   expose(:answer, ancestor: :question)
   expose(:answers) { Question.find(params[:question_id]).answers }
-  
+
   def create
     answer.question = Question.find(params[:question_id])
     if answer.save
@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
       render :new
     end
   end
-  
+
   private
 
   def answer_params
