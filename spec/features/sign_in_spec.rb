@@ -16,5 +16,6 @@ feature 'User can sign in', %q{
 
   end
 
+
   scenario 'Unregistered user tries to sign in'
 end
