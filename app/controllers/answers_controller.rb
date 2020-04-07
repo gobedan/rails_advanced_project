@@ -10,10 +10,10 @@ class AnswersController < ApplicationController
     answer.question = Question.find(params[:question_id])
     if answer.save
       flash[:notice] = 'Your answer successfully created.'
-    else 
+    else
       flash[:alert] = 'Error. Answer not saved'
     end
-    redirect_to question_path(answer.question) 
+    redirect_to question_path(answer.question)
   end
 
   private

@@ -13,7 +13,7 @@ feature 'User can create answer', "
   describe 'Authenticated user' do
     background do
       sign_in(user)
-      visit question_path(question) 
+      visit question_path(question)
     end
 
     scenario "submits an anwers" do
@@ -21,7 +21,7 @@ feature 'User can create answer', "
       click_on 'Submit answer'
 
       expect(page).to have_content 'Your answer successfully created.'
-      expect(page).to have_content 'answer text here'    
+      expect(page).to have_content 'answer text here'
     end
 
     scenario "submits an anwers with errors" do
