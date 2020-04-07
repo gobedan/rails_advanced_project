@@ -1,2 +1,12 @@
+/не получилось сделать через паршел ошибок т.к. редиректим из контроллера ответов - не стал переписывать в духе controller.question.title || controller.answer.question.title чтобы не захламлять код
+/= render 'shared/errors', resource: Answer.new(params[:answer])
+
 h1= controller.question.title
 p= controller.question.body
+h4 Answers
+= render controller.question.answers
+.new-answer-block
+  = form_with model: Answer.new, url: question_answers_path(controller.question), method: :post, local: true do |f|
+    = f.label :body, "Your answer"
+    = f.text_area :body
+    = f.submit 'Submit answer'

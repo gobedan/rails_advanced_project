@@ -2,9 +2,9 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  
+
   expose :questions, -> { Question.all }
-  expose(:question, attributes: %i[title, body])
+  expose(:question, attributes: %i[title body])
 
   def create
     if question.save
