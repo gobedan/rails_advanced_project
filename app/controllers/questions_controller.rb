@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
+  
   expose :questions, -> { Question.all }
-  expose :question
+  expose(:question, attributes: %i[title, body])
 
   def create
     if question.save
-      redirect_to question_path(question)
+      redirect_to question_path(question), notice: 'Your question successfully created.'
     else
       render :new
     end
@@ -28,6 +30,6 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit!
   end
 end
