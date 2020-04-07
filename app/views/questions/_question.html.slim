@@ -1,3 +1,4 @@
 .question
   h3= question.title
   p= question.body[...100]+'...'
+  p= link_to 'answers', question_path(question)

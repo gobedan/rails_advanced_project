@@ -9,7 +9,7 @@ feature 'User view all questions list', "
 " do
   given!(:question1) { create(:question) }
   given!(:question2) { create(:question) }
-  
+
   scenario "User goes to questions page" do
     visit questions_path
 
