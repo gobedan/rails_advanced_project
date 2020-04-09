@@ -6,8 +6,11 @@ h1= controller.question.title
 p= controller.question.body
 h4 Answers
 = render controller.question.answers
-.new-answer-block
-  = form_with model: Answer.new, url: question_answers_path(controller.question), method: :post, local: true do |f|
-    = f.label :body, "Your answer"
-    = f.text_area :body
-    = f.submit 'Submit answer'
+- if current_user == controller.question.author
+  = link_to 'Delete', question_path(controller.question), method: :delete
+- else 
+  .new-answer-block
+    = form_with model: Answer.new, url: question_answers_path(controller.question), method: :post, local: true do |f|
+      = f.label :body, "Your answer"
+      = f.text_area :body
+      = f.submit 'Submit answer'
