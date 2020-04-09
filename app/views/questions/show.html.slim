@@ -1,6 +1,7 @@
-/не получилось сделать через паршел ошибок т.к. редиректим из контроллера ответов - не стал переписывать в духе controller.question.title || controller.answer.question.title чтобы не захламлять код
-/= render 'shared/errors', resource: Answer.new(params[:answer])
-
+// не получилось сделать вывод ошибок через паршел - почему-то приходя сюда 
+/через render из контроллера вопросов все равно  controller.class == /"QuestionsController"
+//- if controller.class == "AnswersController"
+//  = render 'shared/errors', resource: controller.answer
 h1= controller.question.title
 p= controller.question.body
 h4 Answers
