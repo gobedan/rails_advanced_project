@@ -9,21 +9,23 @@ class AnswersController < ApplicationController
 
   def create
     answer.author = current_user
-    # почему без этой строчки не работает хотя с decent exposure должно?
     answer.question = question
     if answer.save
       flash[:notice] = 'Your answer successfully created.'
+      redirect_to question_path(question)
     else
-      flash[:alert] = 'Error. Answer not saved'
-      # решение через паршел ошибок не получилось, см. коммент во вьюхе
-      # render 'questions/show'
+      render 'questions/show'
     end
-    redirect_to question_path(question)
   end
 
   def destroy
-    answer.destroy
-    redirect_to question_path(question), notice: 'Your answer deleted successfully'
+    if current_user.author_of?(answer)
+      answer.destroy
+      flash[:notice] = 'Your answer deleted successfully'
+    else
+      flash[:error] = 'Delete is not permitted!'
+    end
+    redirect_to question_path(question)
   end
 
   private

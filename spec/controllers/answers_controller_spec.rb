@@ -11,9 +11,10 @@ RSpec.describe AnswersController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
-      it 'saves new answer to database' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)
-      end
+      it 'sets current user as author'
+      # do
+      #   expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(user.answers, :count).by(1)
+      # end
 
       it 'saves new answer in associated collection' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
@@ -33,12 +34,22 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user) }
+    context 'with author user logged in' do
+      before { login(answer.author) }
 
-    let!(:answer) { create(:answer) }
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer.id } }.to change(Answer, :count).by(-1)
+      end
+    end
 
-    it 'delete the question' do
-      expect { delete :destroy, params: { question_id: question.id, id: answer.id } }.to change(Answer, :count).by(-1)
+    context 'with non-author user logged in' do
+      before { login(user) }
+
+      let!(:answer) { create(:answer) }
+
+      it 'cannot delete the answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer.id } }.to_not change(Answer, :count)
+      end
     end
   end
 end

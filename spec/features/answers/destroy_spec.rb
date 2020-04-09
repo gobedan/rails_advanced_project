@@ -16,14 +16,13 @@ feature 'User can destroy his answer', "
     click_on 'Delete'
 
     expect(page).to have_content 'Your answer deleted successfully'
-    ## такая проверка не будет ли более доказательной?
-    # expect(page).to have_no_content answer.body
+    expect(page).to have_no_content answer.body
   end
 
   scenario "User tries to delete other person's answer" do
     sign_in(user)
     visit question_path(answer.question)
 
-    expect(page).to have_no_content 'Delete'
+    expect(page).to have_no_link 'Delete'
   end
 end

@@ -1,16 +1,13 @@
-// не получилось сделать вывод ошибок через паршел - почему-то приходя сюда 
-/через render из контроллера вопросов все равно  controller.class == /"QuestionsController"
-//- if controller.class == "AnswersController"
-//  = render 'shared/errors', resource: controller.answer
-h1= controller.question.title
-p= controller.question.body
+/- if answer
+/  = render 'shared/errors', resource: answer
+h1= question.title
+p= question.body
 h4 Answers
-= render controller.question.answers
-- if current_user == controller.question.author
-  = link_to 'Delete', question_path(controller.question), method: :delete
-- else 
-  .new-answer-block
-    = form_with model: Answer.new, url: question_answers_path(controller.question), method: :post, local: true do |f|
-      = f.label :body, "Your answer"
-      = f.text_area :body
-      = f.submit 'Submit answer'
+= render question.answers
+- if current_user&.author_of?(question)
+  = link_to 'Delete', question_path(question), method: :delete
+.new-answer-block
+  = form_with model: Answer.new, url: question_answers_path(question), local: true do |f|
+    = f.label :body, "Your answer"
+    = f.text_area :body
+    = f.submit 'Submit answer'

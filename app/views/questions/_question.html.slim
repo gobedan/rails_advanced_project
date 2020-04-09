@@ -1,4 +1,4 @@
 .question
   h3= question.title
-  p= question.body[...100]+'...'
+  p= truncate(question.body, length: 20, ommition: '...')
   p= link_to 'answers', question_path(question)

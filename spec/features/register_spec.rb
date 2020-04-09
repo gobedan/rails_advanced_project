@@ -16,7 +16,6 @@ feature 'User can register', "
     fill_in 'Password confirmation', with: '12345678'
     click_on 'Sign up'
 
-    # нужно ли попробовать залогинится под новым пользователем или проверки по сообщению достаточно?
     expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
 
