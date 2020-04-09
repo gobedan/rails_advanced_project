@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
 
   expose(:question)
   expose(:answer, ancestor: :question)
-  expose(:answers) { Question.find(params[:question_id]).answers }
+  expose(:answers, ancestor: :question)
 
   def create
     answer.question = question
