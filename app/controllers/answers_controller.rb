@@ -3,8 +3,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
-  expose(:question)
-  expose(:answer)
+  expose :answer
+  expose :question
   expose(:answers, ancestor: :question)
 
   def create
@@ -22,10 +22,10 @@ class AnswersController < ApplicationController
     if current_user.author_of?(answer)
       answer.destroy
       flash[:notice] = 'Your answer deleted successfully'
+      redirect_to question_path(answer.question)
     else
-      flash[:error] = 'Delete is not permitted!'
+      render 'questions/show'
     end
-    redirect_to question_path(question)
   end
 
   private

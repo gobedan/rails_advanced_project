@@ -25,4 +25,10 @@ feature 'User can destroy his answer', "
 
     expect(page).to have_no_link 'Delete'
   end
+
+  scenario "Non-authenticated user tries to delete answer" do
+    visit question_path(answer.question)
+
+    expect(page).to have_no_link 'Delete'
+  end
 end
