@@ -4,10 +4,12 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
 
   expose(:question)
-  expose(:answer, ancestor: :question)
+  expose(:answer)
   expose(:answers, ancestor: :question)
 
   def create
+    answer.author = current_user
+    # почему без этой строчки не работает хотя с decent exposure должно?
     answer.question = question
     if answer.save
       flash[:notice] = 'Your answer successfully created.'
@@ -17,6 +19,11 @@ class AnswersController < ApplicationController
       # render 'questions/show'
     end
     redirect_to question_path(question)
+  end
+
+  def destroy
+    answer.destroy
+    redirect_to question_path(question), notice: 'Your answer deleted successfully'
   end
 
   private
