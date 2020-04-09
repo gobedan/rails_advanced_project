@@ -1,0 +1,16 @@
+nav.navbar.navbar-light.bg-light
+  div
+    = link_to 'QnA', root_path, class: 'navbar-brand nav-title'
+  .nav-right-container
+    - if user_signed_in?
+      span.nav-text
+        = "Welcome, "
+        b
+          = current_user.email
+        |!  | 
+      = link_to 'Log out', destroy_user_session_path, method: :delete
+    - elsif defined?(resource_name)
+      = link_to t('devise.links.login'), new_session_path(resource_name)
+      span
+        |  | 
+      = link_to t('devise.links.register'), new_registration_path(resource_name)
