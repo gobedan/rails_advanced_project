@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
 
   expose(:question)
-  expose(:answer, ancestor: :question, attributes: :body)
+  expose(:answer, ancestor: :question)
   expose(:answers) { Question.find(params[:question_id]).answers }
 
   def create
