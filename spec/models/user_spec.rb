@@ -12,10 +12,10 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :password }
 
   it 'returns true if user is author of content' do
-    expect(question.author.author_of?(question)).to be true
+    expect(question.author).to be_an_author_of(question)
   end
 
   it 'returns false if user is not author of content' do
-    expect(user.author_of?(question)).to be false
+    expect(user).to_not be_an_author_of(question)
   end
 end

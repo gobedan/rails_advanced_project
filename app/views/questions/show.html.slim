@@ -7,7 +7,7 @@ h4 Answers
 - if current_user&.author_of?(question)
   = link_to 'Delete', question_path(question), method: :delete
 .new-answer-block
-  = form_with model: Answer.new, url: question_answers_path(question), local: true do |f|
+  = form_with model: (answer || Answer.new), url: question_answers_path(question), local: true do |f|
     = f.label :body, "Your answer"
     = f.text_area :body
     = f.submit 'Submit answer'
