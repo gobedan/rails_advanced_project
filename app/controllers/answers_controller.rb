@@ -10,12 +10,11 @@ class AnswersController < ApplicationController
   def create
     answer.author = current_user
     answer.question = question
-    if answer.save
-      flash[:notice] = 'Your answer successfully created.'
-      redirect_to question_path(question)
-    else
-      render 'questions/show'
-    end
+    answer.save
+  end
+
+  def update
+    answer.update(answer_params)
   end
 
   def destroy
