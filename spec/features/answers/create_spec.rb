@@ -16,15 +16,14 @@ feature 'User can create answer', "
       visit question_path(question)
     end
 
-    scenario "submits an anwers" do
+    scenario "submits an anwers", js: true do
       fill_in 'Your answer', with: 'answer text here'
       click_on 'Submit answer'
 
-      expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'answer text here'
     end
 
-    scenario "submits an anwers with errors" do
+    scenario "submits an anwers with errors", js: true do
       click_on 'Submit answer'
 
       expect(page).to have_content "Body can't be blank"

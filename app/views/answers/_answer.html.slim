@@ -1,5 +1,12 @@
 - if answer.persisted?
-  .answer
+  div class='answer' data-answer-id=answer.id
+    .answer-edit-errors
     p= answer.body
     - if current_user&.author_of?(answer)
+      = link_to 'Edit'
+      |  | 
       = link_to 'Delete', answer_path(answer), method: :delete
+    = form_with model: answer, url: answer_path(answer) do |f|
+      = f.label :body, "Edit answer"
+      = f.text_area :body
+      = f.submit 'Save'
