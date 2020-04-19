@@ -9,7 +9,7 @@ h4 Answers
   - if answer
     = render 'shared/errors', resource: answer
 .new-answer-block
-  = form_with model: (answer || Answer.new), url: question_answers_path(question) do |f|
+  = form_with model: (answer || Answer.new), url: question_answers_path(question), class: 'new-answer' do |f|
     = f.label :body, "Your answer"
     = f.text_area :body
     = f.submit 'Submit answer'
