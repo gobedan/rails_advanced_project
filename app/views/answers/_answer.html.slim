@@ -1,6 +1,8 @@
 - if answer.persisted?
   div class='answer' data-answer-id=answer.id
     .answer-edit-errors
+    .best-answer if answer.best?
+      img src="#" alt="best answer"
     p= answer.body
     - if current_user&.author_of?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }

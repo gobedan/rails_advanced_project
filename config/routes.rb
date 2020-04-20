@@ -6,5 +6,7 @@ Rails.application.routes.draw do
     resources :answers, shallow: true
   end
 
+  post 'question/:id/:answer_id', to: 'questions#assign_best'
+
   root to: 'questions#index'
 end
