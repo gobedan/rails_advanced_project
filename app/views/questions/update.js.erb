@@ -1,0 +1,8 @@
+$('.question .question-errors').html('<%= render 'shared/errors', resource: question %>');
+
+<% unless question.errors.present? %> 
+  $('.question h1').replaceWith('<h1><%= question.title %></h1>');
+  $('.question p').replaceWith('<p><%= question.body %></p>');
+  $('form#edit-question').hide();
+  $('.edit-question-link').show();
+<% end %>
