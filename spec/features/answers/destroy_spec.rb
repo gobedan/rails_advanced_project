@@ -10,23 +10,22 @@ feature 'User can destroy his answer', "
   given(:answer) { create(:answer) }
   given(:user) { create(:user) }
 
-  scenario 'User tries to delete his answer' do
+  scenario 'User tries to delete his answer', js: true do
     sign_in(answer.author)
     visit question_path(answer.question)
     click_on 'Delete'
 
-    expect(page).to have_content 'Your answer deleted successfully'
     expect(page).to have_no_content answer.body
   end
 
-  scenario "User tries to delete other person's answer" do
+  scenario "User tries to delete other person's answer", js: true do
     sign_in(user)
     visit question_path(answer.question)
 
     expect(page).to have_no_link 'Delete'
   end
 
-  scenario "Non-authenticated user tries to delete answer" do
+  scenario "Non-authenticated user tries to delete answer", js: true do
     visit question_path(answer.question)
 
     expect(page).to have_no_link 'Delete'

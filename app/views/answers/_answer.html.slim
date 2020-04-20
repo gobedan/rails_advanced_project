@@ -5,7 +5,7 @@
     - if current_user&.author_of?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
       |  | 
-      = link_to 'Delete', answer_path(answer), method: :delete
+      = link_to 'Delete', answer_path(answer), method: :delete, remote: true
       = form_with model: answer, class: 'hidden', url: answer_path(answer), html: { id: "edit-answer-#{answer.id}" } do |f|
         = f.label :body, "Edit answer"
         = f.text_area :body
