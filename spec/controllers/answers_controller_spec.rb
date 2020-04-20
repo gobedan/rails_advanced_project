@@ -69,7 +69,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it 'renders update template' do
-          patch :update, format: :js, params: { question_id: question, id: answer, answer: attributes_for(:answer) }
+          patch :update, format: :js, params: { id: answer, answer: attributes_for(:answer) }
           expect(response).to render_template :update
         end
       end
@@ -88,8 +88,9 @@ RSpec.describe AnswersController, type: :controller do
 
       let!(:answer) { create(:answer) }
 
-      it 'cannot delete the answer' do
-        patch :update, format: :js, params: { question_id: question, id: answer, answer: { body: 'new body' } }
+      it 'cannot edit the answer' do
+        patch :update, format: :js, params: { id: answer, answer: { body: 'new body' } }
+        answer.reload
         expect(answer.body).to_not eq 'new body'
       end
     end
