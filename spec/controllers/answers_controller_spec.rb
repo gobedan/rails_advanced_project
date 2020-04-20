@@ -37,12 +37,12 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.author) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, format: :js, params: { id: answer } }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects back to question show' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path(answer.question)
+      it 'renders destroy template' do
+        delete :destroy, format: :js, params: { id: answer }
+        expect(response).to render_template :destroy
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer) }
 
       it 'cannot delete the answer' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, format: :js, params: { id: answer } }.to_not change(Answer, :count)
       end
     end
   end
