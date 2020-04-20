@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:question) { create(:question, answers: create_list(:answer, 5)) }
   let(:user) { create(:user) }
+  let(:answer) { create(:answer) }
 
   describe 'POST #create' do
     before { login(user) }
@@ -102,6 +103,38 @@ RSpec.describe QuestionsController, type: :controller do
         question.reload
         expect(question.body).to_not eq 'new body'
         expect(question.title).to_not eq 'new title'
+      end
+    end
+  end
+
+  describe 'POST #assign_best' do
+    context 'with valid params' do
+      before { login(question.author) }
+
+      it "assigns correct best answer to question" do
+        post :assign_best, params: { id: question.id, answer_id: question.answers.last.id }
+        question.reload
+        expect(question.best_answer_id).to eq question.answers.last.id
+      end
+    end
+
+    context 'with invalid params' do
+      before { login(question.author) }
+
+      it "not assigns best answer to question" do
+        post :assign_best, params: { id: question.id, answer_id: answer.id }
+        question.reload
+        expect(question.best_answer_id).to eq answer.id
+      end
+    end
+
+    context 'with non-author user logged in' do
+      before { login(user) }
+
+      it "not assigns best answer to question" do
+        post :assign_best, params: { id: question.id, answer_id: answer.id }
+        question.reload
+        expect(question.best_answer_id).to_not eq answer.id
       end
     end
   end
