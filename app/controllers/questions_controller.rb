@@ -31,12 +31,14 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def assign_best
+  def toggle_best_answer
     if current_user.author_of?(question)
-      question.best_answer_id = params[:answer_id]
-      flash[:notice] = 'New best answer successlully assigned!'
-    else
-      flash[:error] = 'Assigning best answer is not permitted!'
+      question.best_answer = if question.best_answer_id == params[:answer_id].to_i
+                               nil
+                             else
+                               Answer.find_by(id: params[:answer_id])
+                             end
+      question.save
     end
     redirect_to question_path(question)
   end

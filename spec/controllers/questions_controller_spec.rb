@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question, answers: create_list(:answer, 5)) }
+  let(:question) { create(:question, answers: create_list(:answer, 1)) }
   let(:user) { create(:user) }
   let(:answer) { create(:answer) }
 
@@ -107,34 +107,41 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #assign_best' do
+  describe 'POST #toggle_best_answer' do
     context 'with valid params' do
       before { login(question.author) }
 
       it "assigns correct best answer to question" do
-        post :assign_best, params: { id: question.id, answer_id: question.answers.last.id }
+        post :toggle_best_answer, params: { id: question.id, answer_id: question.answers.first.id }
         question.reload
-        expect(question.best_answer_id).to eq question.answers.last.id
+        expect(question.best_answer).to eq question.answers.first
+      end
+
+      it "removes answer as best" do
+        post :toggle_best_answer, params: { id: question.id, answer_id: question.answers.first.id }
+        post :toggle_best_answer, params: { id: question.id, answer_id: question.answers.first.id }
+        question.reload
+        expect(question.best_answer).to be_nil
       end
     end
 
     context 'with invalid params' do
       before { login(question.author) }
 
-      it "not assigns best answer to question" do
-        post :assign_best, params: { id: question.id, answer_id: answer.id }
+      it "not toggles bes_answert answer to question" do
+        post :toggle_best_answer, params: { id: question.id, answer_id: answer.id }
         question.reload
-        expect(question.best_answer_id).to eq answer.id
+        expect(question.best_answer).to be_nil
       end
     end
 
     context 'with non-author user logged in' do
       before { login(user) }
 
-      it "not assigns best answer to question" do
-        post :assign_best, params: { id: question.id, answer_id: answer.id }
+      it "not toggles bes_answert answer to question" do
+        post :toggle_best_answer, params: { id: question.id, answer_id: answer.id }
         question.reload
-        expect(question.best_answer_id).to_not eq answer.id
+        expect(question.best_answer).to be_nil
       end
     end
   end
