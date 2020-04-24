@@ -29,8 +29,8 @@ feature 'User can mark answer to his question as best answer', "
         expect(page).to have_link 'Unmark as best'
       end
 
-      expect(page).to have_selector ".answer[data-answer-id=#{question.answers.last.id}] .best-answer"
-      # TODO expect best answer to be on top
+      expect(page).to have_selector ".answer[data-answer-id=#{question.answers.last.id}].best-answer"
+      expect(page).to have_selector ".answer[data-answer-id=#{question.answers.last.id}]:first-of-type"
     end
 
     scenario 'choose another answer as best' do
@@ -45,8 +45,8 @@ feature 'User can mark answer to his question as best answer', "
         click_on 'Mark as best'
       end
 
-      expect(page).to have_selector ".answer[data-answer-id=#{question.answers.first.id}] .best-answer"
-      expect(page).to_not have_selector ".answer[data-answer-id=#{question.answers.last.id}] .best-answer"
+      expect(page).to have_selector ".answer[data-answer-id=#{question.answers.first.id}].best-answer"
+      expect(page).to_not have_selector ".answer[data-answer-id=#{question.answers.last.id}].best-answer"
     end
 
     scenario 'unmarks answer as best' do

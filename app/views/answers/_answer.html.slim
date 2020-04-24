@@ -1,8 +1,9 @@
 - if answer.persisted?
-  div class='answer' data-answer-id=answer.id
+  div.answer class=("best-answer" if answer.best?) data-answer-id=answer.id
     .answer-edit-errors
-    .best-answer if answer.best?
-      img src="#" alt="best answer"
+    - if answer.best?
+      .best-answer
+        img src="#" alt="best answer"
     p= answer.body
     - if current_user&.author_of?(answer)
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
@@ -12,3 +13,9 @@
         = f.label :body, "Edit answer"
         = f.text_area :body
         = f.submit 'Save'
+    - if current_user&.author_of?(answer.question) && !answer.best?
+      | | 
+      = link_to 'Mark as best', toggle_best_answer_path(question, answer), method: :post, local: true
+    - if current_user&.author_of?(answer.question) && answer.best?
+      | | 
+      = link_to 'Unmark as best', toggle_best_answer_path(question, answer), method: :post, local: true
