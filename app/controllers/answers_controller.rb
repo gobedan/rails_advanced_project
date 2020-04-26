@@ -21,6 +21,11 @@ class AnswersController < ApplicationController
     answer.destroy if current_user.author_of?(answer)
   end
 
+  def best
+    answer.toggle_best
+    redirect_to question_path(question)
+  end
+
   private
 
   def answer_params

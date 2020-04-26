@@ -12,9 +12,8 @@ RSpec.describe Question, type: :model do
   it { should validate_presence_of :title }
   it { should validate_presence_of :body }
 
-  it 'validates association of best answer' do
-    question.best_answer = answer
-    expect(question).to be_invalid
-    expect(question.errors[:base]).to include("answer is not associated with question")
+  it 'has best answer' do
+    question.answers.first.toggle_best
+    expect(question.best_answer).to eq question.answers.first
   end
 end

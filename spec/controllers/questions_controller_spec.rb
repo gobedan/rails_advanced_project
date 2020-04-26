@@ -106,43 +106,4 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
-
-  describe 'POST #toggle_best_answer' do
-    context 'with valid params' do
-      before { login(question.author) }
-
-      it "assigns correct best answer to question" do
-        post :toggle_best_answer, params: { id: question.id, answer_id: question.answers.first.id }
-        question.reload
-        expect(question.best_answer).to eq question.answers.first
-      end
-
-      it "removes answer as best" do
-        post :toggle_best_answer, params: { id: question.id, answer_id: question.answers.first.id }
-        post :toggle_best_answer, params: { id: question.id, answer_id: question.answers.first.id }
-        question.reload
-        expect(question.best_answer).to be_nil
-      end
-    end
-
-    context 'with invalid params' do
-      before { login(question.author) }
-
-      it "not toggles bes_answert answer to question" do
-        post :toggle_best_answer, params: { id: question.id, answer_id: answer.id }
-        question.reload
-        expect(question.best_answer).to be_nil
-      end
-    end
-
-    context 'with non-author user logged in' do
-      before { login(user) }
-
-      it "not toggles bes_answert answer to question" do
-        post :toggle_best_answer, params: { id: question.id, answer_id: answer.id }
-        question.reload
-        expect(question.best_answer).to be_nil
-      end
-    end
-  end
 end
