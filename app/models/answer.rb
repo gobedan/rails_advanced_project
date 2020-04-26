@@ -6,7 +6,9 @@ class Answer < ApplicationRecord
 
   validates :body, :question, presence: true
 
-  def best?
-    question.best_answer_id == id
+  def toggle_best
+    Answer.find_by(question_id: question, best: true)&.update(best: false)
+    self.best = !best
+    save
   end
 end
