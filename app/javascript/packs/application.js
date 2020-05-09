@@ -5,6 +5,7 @@
 
 //= require jquery3
 //= require jquery_ujs
+//= require activestorage
 
 require("@rails/ujs").start()
 require("turbolinks").start()
