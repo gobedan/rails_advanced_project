@@ -2,9 +2,10 @@
   .question-errors
   h1= question.title
   p= question.body
-  - if question.files.attached?
-    - question.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
+  .attachments
+    - if question.files.attached?
+        - question.files.each do |file|
+          p= link_to file.filename.to_s, url_for(file)
   
 
   - if current_user&.author_of?(question)
@@ -13,11 +14,17 @@
     = link_to 'Delete', question_path(question), method: :delete
 
     = form_with model: question, class: 'hidden', url: question_path(question), html: { id: 'edit-question' } do |f|
-      = f.label :title, "Title"
+      p= f.label :title, "Title"
       = f.text_field :title
 
-      = f.label :body, "Body"
+      p= f.label :body, "Body"
       = f.text_area :body
+
+      p= f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
+      - if question.files.attached? 
+        - question.files.each do |file|
+          = f.hidden_field :files, multiple: true, value: file.signed_id
 
       = f.submit 'Save'
 h4 Answers
@@ -28,6 +35,11 @@ h4 Answers
     = render 'shared/errors', resource: answer
 .new-answer-block
   = form_with model: (answer || Answer.new), url: question_answers_path(question), class: 'new-answer' do |f|
-    = f.label :body, "Your answer"
+    
+    p= f.label :body, "Your answer"
     = f.text_area :body
+
+    p= f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+    
     = f.submit 'Submit answer'
