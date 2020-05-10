@@ -1,8 +1,16 @@
 $('.question .question-errors').html('<%= render 'shared/errors', resource: question %>');
 
 <% unless question.errors.present? %> 
-  $('.question h1').replaceWith('<h1><%= question.title %></h1>');
-  $('.question p').replaceWith('<p><%= question.body %></p>');
+  $('.question h1').first().replaceWith('<h1><%= question.title %></h1>');
+  $('.question p').first().replaceWith('<p><%= question.body %></p>');
+  <% if question.files.attached? %>
+    $('.attachments p').remove();
+    <% question.files.each do |file| %>
+      $('.attachments').append('<p><%= link_to file.filename.to_s, url_for(file) %></p>');
+    <% end %>
+    $('#question_files[type!=hidden]').prop('disabled', false);
+    $('#question_files[type!=hidden]').value = '';
+  <% end %> 
   $('form#edit-question').hide();
   $('.edit-question-link').show();
 <% end %>
