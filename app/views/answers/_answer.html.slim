@@ -1,3 +1,4 @@
+- user_is_author = current_user&.author_of?(answer)
 - if answer.persisted?
   div.answer class=("best-answer" if answer.best?) data-answer-id=answer.id
     .answer-edit-errors
@@ -6,11 +7,17 @@
         img src="#" alt="best answer"
     p= answer.body
     
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        p= link_to file.filename.to_s, url_for(file)
+    .attachments
+      - if answer.files.attached?
+        - answer.files.each do |file|
+          .attachment
+              = link_to file.filename.to_s, url_for(file)
+              |  | 
+              - if user_is_author
+                = link_to 'x', attachment_path(file), method: :delete, remote: true
+              br
     
-    - if current_user&.author_of?(answer)
+    - if user_is_author
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
       |  | 
       = link_to 'Delete', answer_path(answer), method: :delete, remote: true

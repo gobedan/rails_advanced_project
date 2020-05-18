@@ -72,5 +72,30 @@ feature 'User can edit his answer', "
         expect(page).to have_link 'spec_helper.rb'
       end
     end
+
+    scenario 'deletes attachment of his answer', js: true do
+      sign_in(user)
+      visit question_path(question)
+
+      within '.answer' do
+        click_on 'Edit'
+        attach_file 'Files', Rails.root.join('spec/spec_helper.rb')
+        click_on 'Save'
+
+        click_on 'x'
+        expect(page).to_not have_link 'spec_helper.rb'
+      end
+    end
+
+    given!(:answer_with_files) { create(:answer, :with_attachments, author: user, question: create(:question)) }
+
+    scenario "tries to delete attachment of other person's question", js: true do
+      sign_in(other_user)
+      visit question_path(answer_with_files.question)
+
+      within '.answer' do
+        expect(page).to_not have_link 'x'
+      end
+    end
   end
 end

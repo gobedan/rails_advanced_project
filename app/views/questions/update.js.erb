@@ -3,10 +3,15 @@ $('.question .question-errors').html('<%= render 'shared/errors', resource: ques
 <% unless question.errors.present? %> 
   $('.question h1').first().replaceWith('<h1><%= question.title %></h1>');
   $('.question p').first().replaceWith('<p><%= question.body %></p>');
+  $('.attachments').empty();
   <% if question.files.attached? %>
-    $('.attachments p').remove();
     <% question.files.each do |file| %>
-      $('.attachments').append('<p><%= link_to file.filename.to_s, url_for(file) %></p>');
+      $('.attachments').append('<%= link_to file.filename.to_s, url_for(file) %>');
+      <% if current_user&.author_of?(question) %>
+        $('.attachments').append(' \| ');
+        $('.attachments').append('<%= link_to 'x', attachment_path(file), method: :delete, remote: true %>');
+      <% end %>
+      $('.attachments').append('<br>')
     <% end %>
     $('#question_files[type!=hidden]').prop('disabled', false);
     $('#question_files[type!=hidden]').value = '';
