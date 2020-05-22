@@ -32,6 +32,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 # GOBEDAN: additional gems
 gem "aws-sdk-s3", require: false
+gem 'cocoon'
 gem 'decent_exposure', '3.0.0'
 gem 'devise'
 gem 'jquery-rails'
