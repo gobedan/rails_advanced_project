@@ -9,6 +9,16 @@ class QuestionsController < ApplicationController
   end
   expose :answer, -> { Answer.new }
 
+  # не придумал как реализовать инстанцирование линков для new и show средствами decent exposure
+
+  def show
+    answer.links.new
+  end
+
+  def new
+    question.links.new
+  end
+
   def create
     question.update(question_params)
     question.author = current_user
@@ -37,6 +47,6 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: %i[name url])
   end
 end

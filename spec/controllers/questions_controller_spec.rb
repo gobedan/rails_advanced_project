@@ -7,6 +7,29 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:answer) { create(:answer) }
 
+  describe 'GET #show' do
+    before do
+      get :show
+    end
+
+    it 'assigns a new Link to answer' do
+      # controller тут нужен чтобы не был путаницы с answer который в let(:answer)
+      expect(controller.answer.links.first).to be_a_new(Link)
+    end
+  end
+
+  describe 'GET #new' do
+    before do
+      login(user)
+      get :new
+    end
+
+    it 'assigns a new Link to question' do
+      # controller тут нужен чтобы не был путаницы с question который в let(:question)
+      expect(controller.question.links.first).to be_a_new(Link)
+    end
+  end
+
   describe 'POST #create' do
     before { login(user) }
 

@@ -6,11 +6,13 @@ RSpec.describe Answer, type: :model do
   let(:answer) { create(:answer) }
   let!(:question) { create(:question, answers: create_list(:answer, 2)) }
 
+  it { should belong_to :author }
   it { should belong_to :question }
+  it { should have_many(:links).dependent(:destroy) }
 
   it { should validate_presence_of :body }
   it { should validate_presence_of :question }
-  it { should belong_to :author }
+  it { should accept_nested_attributes_for :links }
 
   it "sets answer's best flag" do
     answer.toggle_best
