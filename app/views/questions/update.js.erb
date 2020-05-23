@@ -1,21 +1,9 @@
-$('.question .question-errors').html('<%= render 'shared/errors', resource: question %>');
-
+$('.question-errors').html('<%= render 'shared/errors', resource: question %>');
 <% unless question.errors.present? %> 
-  $('.question h1').first().replaceWith('<h1><%= question.title %></h1>');
-  $('.question p').first().replaceWith('<p><%= question.body %></p>');
-  $('.attachments').empty();
-  <% if question.files.attached? %>
-    <% question.files.each do |file| %>
-      $('.attachments').append('<%= link_to file.filename.to_s, url_for(file) %>');
-      <% if current_user&.author_of?(question) %>
-        $('.attachments').append(' \| ');
-        $('.attachments').append('<%= link_to 'x', attachment_path(file), method: :delete, remote: true %>');
-      <% end %>
-      $('.attachments').append('<br>')
-    <% end %>
-    $('#question_files[type!=hidden]').prop('disabled', false);
-    $('#question_files[type!=hidden]').value = '';
-  <% end %> 
-  $('form#edit-question').hide();
-  $('.edit-question-link').show();
+  $('.question').replaceWith("<%= j render 'question_details' %>");
 <% end %>
+$('.question').on('click', '.edit-question-link', function(event) {
+    event.preventDefault();
+    $(this).hide();
+    $(`form#edit-question`).show();
+});

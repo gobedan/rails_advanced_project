@@ -10,6 +10,7 @@ feature 'User can edit his question', "
   given!(:user) { create(:user) }
   given!(:other_user) { create(:user) }
   given!(:question) { create(:question, author: user) }
+  given(:gist_url) { 'https://gist.github.com/gobedan/4651d1193e459cf6c90c34ee93d071ac' }
 
   scenario 'Unauthenticated user cannot edit question' do
     visit question_path(question)
@@ -71,6 +72,40 @@ feature 'User can edit his question', "
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario "adds links to question", js: true do
+      sign_in(user)
+      visit question_path(question)
+
+      within '.question' do
+        click_on 'Edit'
+        click_on 'add link'
+        fill_in 'Link name', with: 'My gist'
+        fill_in 'Url', with: gist_url
+        click_on 'Save'
+
+        expect(page).to have_link 'My gist'
+      end
+    end
+
+    scenario "deletes links from question", js: true do
+      sign_in(user)
+      visit question_path(question)
+
+      within '.question' do
+        click_on 'Edit'
+        click_on 'add link'
+        fill_in 'Link name', with: 'My gist'
+        fill_in 'Url', with: gist_url
+        click_on 'Save'
+
+        click_on 'Edit'
+        click_on 'remove link'
+        click_on 'Save'
+
+        expect(page).to_not have_link 'My gist'
       end
     end
 
