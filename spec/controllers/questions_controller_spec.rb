@@ -9,7 +9,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #show' do
     before do
-      get :show
+      get :show, params: { id: question }
     end
 
     it 'assigns a new Link to answer' do
