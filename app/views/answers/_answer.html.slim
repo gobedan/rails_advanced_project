@@ -22,6 +22,8 @@
         ul 
           - answer.links.each do |link|
             li= link_to link.name, link.url
+            - if link.url.starts_with? 'https://gist.github.com'
+              script[src="#{link.url}.js"]
 
     - if user_is_author
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
