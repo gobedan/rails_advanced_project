@@ -15,6 +15,7 @@ class Answer < ApplicationRecord
     Answer.transaction do
       question.answers.where(best: true).update(best: false)
       update(best: !best)
+      question.badge&.update(reciever: question.answers.find_by(best: true)&.author)
     end
   end
 end
