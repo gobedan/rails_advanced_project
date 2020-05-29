@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
   let(:user) { create(:user) }
 
   it { should have_many(:questions).dependent(:destroy).inverse_of(:author) }
+  it { should have_many(:badges).dependent(:nullify).inverse_of(:reciever) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }

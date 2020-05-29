@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'User cann add links to question', "
+feature 'User can add links to question', "
   In order to provide additional information
   As an question's autor
   I'd like to be able to add links

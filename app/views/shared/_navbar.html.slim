@@ -7,7 +7,9 @@ nav.navbar.navbar-light.bg-light
         = "Welcome, "
         b
           = current_user.email
-        |!  | 
+        |!  |  
+      = link_to 'My badges', badges_path
+      |   |   
       = link_to 'Log out', destroy_user_session_path, method: :delete
     - elsif defined?(resource_name)
       = link_to t('devise.links.login'), new_session_path(resource_name)

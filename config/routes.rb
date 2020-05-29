@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers, shallow: true
   end
-  
+
+  resources :badges, only: :index
   resources :attachments, only: :destroy
   post 'question/:question_id/:id/best', to: 'answers#best', as: :best_answer
 end
